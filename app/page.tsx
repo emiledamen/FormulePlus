@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 type Product = {
   id: string;
@@ -33,13 +33,12 @@ export default function Home() {
   const [loading, setLoading] = useState<string | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
 
-  // Lazy load products.json to keep this simple
-  if (products.length === 0) {
+  useEffect(() => {
     fetch('/products.json')
       .then((r) => r.json())
       .then(setProducts)
       .catch(() => setProducts([]));
-  }
+  }, []);
 
   return (
     <main>

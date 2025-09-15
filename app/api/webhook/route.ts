@@ -17,15 +17,12 @@ export async function POST(req: Request) {
       const body = await req.json();
       paymentId = body?.id || '';
     } else {
-      // fallback
       const text = await req.text();
       const params = new URLSearchParams(text);
       paymentId = params.get('id') || '';
     }
 
     console.log('[Mollie webhook] payment id:', paymentId);
-    // TODO: haal payment status op bij Mollie indien gewenst en update eigen administratie
-
     return new NextResponse('OK', { status: 200 });
   } catch (e: any) {
     console.error('[Mollie webhook] error', e);

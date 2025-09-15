@@ -2,6 +2,8 @@ PATCH_MANIFEST.txt
 README.md
 .env.example
 package.json
+tsconfig.json
+next-env.d.ts
 next.config.mjs
 .gitignore
 public/robots.txt

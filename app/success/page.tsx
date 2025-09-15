@@ -14,7 +14,7 @@ export default function SuccessPage() {
   return (
     <main>
       <h2>Bedankt voor je bestelling!</h2>
-      <p>We hebben je betaling ontvangen. Je krijgt zo een bevestiging per e‑mail via Mollie.</p>
+      <p>We hebben je betaling ontvangen. Je krijgt zo een bevestiging per e-mail via Mollie.</p>
       {paymentId && (
         <p style={{ color: '#555' }}>Betalingsreferentie: <code>{paymentId}</code></p>
       )}
