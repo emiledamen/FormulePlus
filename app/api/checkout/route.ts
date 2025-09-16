@@ -2,6 +2,13 @@ import { NextResponse } from 'next/server';
 import products from '../../../data/products.json';
 import { createPayment } from '../../../lib/mollie';
 
+export async function GET() {
+  return NextResponse.json(
+    { ok: false, hint: 'Gebruik POST naar /api/checkout met { productId } in de body.' },
+    { status: 405 }
+  );
+}
+
 export async function POST(req: Request) {
   try {
     const { productId } = await req.json();
@@ -11,6 +18,11 @@ export async function POST(req: Request) {
     }
 
     const appUrl = process.env.APP_URL || 'http://localhost:3000';
+    const apiKeySet = !!process.env.MOLLIE_API_KEY;
+    if (!apiKeySet) {
+      return new NextResponse('Server-melding: MOLLIE_API_KEY ontbreekt. Zet je test_... key in Vercel → Env Vars.', { status: 500 });
+    }
+
     const description = `Bestelling: ${product.name}`;
     const amountValue = product.price.toFixed(2);
     const currency = product.currency || 'EUR';
