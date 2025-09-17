@@ -2,7 +2,13 @@ import './globals.css';
 
 export const metadata = {
   title: 'FormulePlus — Natural',
-  description: 'Natuurlijke producten, eenvoudig online bestellen'
+  description: 'Natuurlijke producten, eenvoudig online besteld. Veilig betalen via iDEAL en Apple Pay.',
+  openGraph: {
+    title: 'FormulePlus — Natural',
+    description: 'Natuurlijke producten, eenvoudig online besteld.',
+    images: ['/favicon.svg'],
+  },
+  icons: { icon: '/favicon.svg' }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

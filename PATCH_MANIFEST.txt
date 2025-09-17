@@ -1,5 +1,6 @@
-PATCH (Homepage Pro + branding)
+PATCH (Homepage Pro v2)
 app/globals.css
 app/layout.tsx
 app/page.tsx
-public/brand-bg.svg
+public/favicon.svg
+public/logo-formuleplus.pdf

@@ -49,7 +49,7 @@ export default function Home() {
         <div className="container heroInner">
           <div>
             <div className="kicker">NATURAL • FORMULEPLUS</div>
-            <h1 className="h1">Natuurlijke producten, eenvoudig besteld</h1>
+            <h1 className="h1">Natuurlijk goed. Eenvoudig besteld.</h1>
             <p className="lead">Eerlijke ingrediënten, heldere informatie en snelle levering — veilig betalen via iDEAL.</p>
             <div className="cta">
               <a className="btn btnGhost" href="#shop">Bekijk assortiment</a>
@@ -72,19 +72,17 @@ export default function Home() {
                 {featured ? (loading === featured.id ? 'Bezig…' : `Snel bestellen: ${featured.name}`) : 'Momenteel uitverkocht'}
               </button>
             </div>
-            <div className="benefits">
-              <div className="benefit">✔ 1–2 werkdagen levering</div>
-              <div className="benefit">✔ NL/BE verzending</div>
-              <div className="benefit">✔ iDEAL & Apple&nbsp;Pay via Mollie</div>
+            <div className="badges">
+              <div className="badge">✓ 1–2 werkdagen levering</div>
+              <div className="badge">✓ NL/BE verzending</div>
+              <div className="badge">✓ iDEAL & Apple Pay via Mollie</div>
             </div>
           </div>
-          <div style={{textAlign:'center'}}>
-            <img src="/logo-formuleplus.png" alt="FormulePlus" style={{height:120, width:'auto', imageRendering:'auto'}}/>
-          </div>
+          <div aria-hidden="true" />
         </div>
       </section>
 
-      <section id="shop" className="container">
+      <section id="shop" className="container section">
         <div className="grid">
           {others.map((p) => (
             <div key={p.id} className="card">
@@ -112,14 +110,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="over" className="container" style={{padding:'8px 0 28px 0'}}>
-        <h2 style={{margin:'0 0 6px 0',color:'var(--brand-blue-ink)'}}>Over FormulePlus</h2>
+      <section id="over" className="container section" style={{paddingTop:0}}>
+        <h2 style={{margin:'0 0 6px 0',color:'var(--brand-ink)'}}>Over FormulePlus</h2>
         <p style={{color:'var(--muted)'}}>Wij geloven in natuurlijke formules en duidelijke communicatie. Geen gedoe, wel kwaliteit.</p>
       </section>
 
-      <section id="contact" className="container" style={{padding:'0 0 40px 0'}}>
-        <h2 style={{margin:'0 0 6px 0',color:'var(--brand-blue-ink)'}}>Contact</h2>
-        <p style={{color:'var(--muted)'}}>Vragen? Mail ons gerust: <a href="mailto:info@formuleplus.nl">info@formuleplus.nl</a></p>
+      <section id="contact" className="container section" style={{paddingTop:0}}>
+        <h2 style={{margin:'0 0 6px 0',color:'var(--brand-ink)'}}>Contact</h2>
+        <p style={{color:'var(--muted)'}}>Vragen? Mail ons: <a href="mailto:info@formuleplus.nl">info@formuleplus.nl</a></p>
       </section>
     </main>
   );
