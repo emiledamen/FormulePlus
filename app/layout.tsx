@@ -9,17 +9,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="nl">
       <body>
-        <div className="container">
-          <header className="header">
+        <header className="header">
+          <div className="container headerInner">
             <div className="brand">
               <img src="/logo-formuleplus.png" alt="FormulePlus" />
-              <div className="name">FormulePlus</div>
+              <div className="brandName">FormulePlus</div>
             </div>
-            <div className="badge">MVP • Mollie</div>
-          </header>
-          {children}
-          <footer>© {new Date().getFullYear()} FormulePlus — Betaalprovider: Mollie</footer>
-        </div>
+            <nav className="nav" aria-label="Hoofdmenu">
+              <a href="#shop">Shop</a>
+              <a href="#over">Over</a>
+              <a href="#contact">Contact</a>
+            </nav>
+          </div>
+        </header>
+        {children}
+        <footer className="footer">
+          <div className="container footerInner">
+            <div>© {new Date().getFullYear()} FormulePlus</div>
+            <div>Veilig betalen met Mollie (iDEAL, Apple Pay)</div>
+          </div>
+        </footer>
       </body>
     </html>
   );

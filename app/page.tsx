@@ -46,50 +46,50 @@ export default function Home() {
   return (
     <main>
       <section className="hero">
-        <div className="heroCard">
-          <div className="kicker">NATURAL • FORMULEPLUS</div>
-          <h1 className="h1">Natuurlijke producten, eenvoudig besteld</h1>
-          <p className="lead">
-            Eerlijke ingrediënten, heldere informatie en snelle levering. Betaal veilig via iDEAL.
-          </p>
-          <div className="ctaRow">
-            <a className="btn btnGhost" href="#shop">Bekijk assortiment</a>
-            <button
-              className="btn btnPrimary"
-              onClick={async () => {
-                const first = products.find(p => p.inStock);
-                if (!first) return;
-                try {
-                  setLoading(first.id);
-                  await createCheckout(first.id);
-                } catch (e: any) {
-                  alert(e.message);
-                } finally {
-                  setLoading(null);
-                }
-              }}
-              disabled={!featured || loading === featured?.id}
-            >
-              {featured ? (loading === featured.id ? 'Bezig…' : `Snel bestellen: ${featured.name}`) : 'Momenteel uitverkocht'}
-            </button>
+        <div className="container heroInner">
+          <div>
+            <div className="kicker">NATURAL • FORMULEPLUS</div>
+            <h1 className="h1">Natuurlijke producten, eenvoudig besteld</h1>
+            <p className="lead">Eerlijke ingrediënten, heldere informatie en snelle levering — veilig betalen via iDEAL.</p>
+            <div className="cta">
+              <a className="btn btnGhost" href="#shop">Bekijk assortiment</a>
+              <button
+                className="btn btnPrimary"
+                onClick={async () => {
+                  const first = products.find(p => p.inStock);
+                  if (!first) return;
+                  try {
+                    setLoading(first.id);
+                    await createCheckout(first.id);
+                  } catch (e: any) {
+                    alert(e.message);
+                  } finally {
+                    setLoading(null);
+                  }
+                }}
+                disabled={!featured || loading === featured?.id}
+              >
+                {featured ? (loading === featured.id ? 'Bezig…' : `Snel bestellen: ${featured.name}`) : 'Momenteel uitverkocht'}
+              </button>
+            </div>
+            <div className="benefits">
+              <div className="benefit">✔ 1–2 werkdagen levering</div>
+              <div className="benefit">✔ NL/BE verzending</div>
+              <div className="benefit">✔ iDEAL & Apple&nbsp;Pay via Mollie</div>
+            </div>
           </div>
-          <div className="meta">
-            <div>• iDEAL, Apple Pay</div>
-            <div>• 1–2 werkdagen</div>
-            <div>• NL/BE</div>
+          <div style={{textAlign:'center'}}>
+            <img src="/logo-formuleplus.png" alt="FormulePlus" style={{height:120, width:'auto', imageRendering:'auto'}}/>
           </div>
-        </div>
-        <div>
-          <img src="/logo-formuleplus.png" alt="FormulePlus logo" style={{width:'100%',maxWidth:460,display:'block',margin:'0 auto'}} />
         </div>
       </section>
 
-      <section id="shop" style={{marginTop:24}}>
-        <div className="cardGrid">
+      <section id="shop" className="container">
+        <div className="grid">
           {others.map((p) => (
             <div key={p.id} className="card">
               <h3>{p.name}</h3>
-              <p className="lead" style={{margin:'6px 0'}}>{p.description}</p>
+              <p>{p.description}</p>
               <div className="price">€ {p.price.toFixed(2)}</div>
               <button
                 className="buy"
@@ -110,6 +110,16 @@ export default function Home() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section id="over" className="container" style={{padding:'8px 0 28px 0'}}>
+        <h2 style={{margin:'0 0 6px 0',color:'var(--brand-blue-ink)'}}>Over FormulePlus</h2>
+        <p style={{color:'var(--muted)'}}>Wij geloven in natuurlijke formules en duidelijke communicatie. Geen gedoe, wel kwaliteit.</p>
+      </section>
+
+      <section id="contact" className="container" style={{padding:'0 0 40px 0'}}>
+        <h2 style={{margin:'0 0 6px 0',color:'var(--brand-blue-ink)'}}>Contact</h2>
+        <p style={{color:'var(--muted)'}}>Vragen? Mail ons gerust: <a href="mailto:info@formuleplus.nl">info@formuleplus.nl</a></p>
       </section>
     </main>
   );
