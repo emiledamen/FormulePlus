@@ -1,6 +1,4 @@
-PATCH (Homepage Pro v2)
+PATCH (Hero background with supplied image)
+public/hero-formuleplus.png
 app/globals.css
-app/layout.tsx
 app/page.tsx
-public/favicon.svg
-public/logo-formuleplus.pdf

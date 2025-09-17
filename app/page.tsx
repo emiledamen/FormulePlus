@@ -46,39 +46,35 @@ export default function Home() {
   return (
     <main>
       <section className="hero">
-        <div className="container heroInner">
-          <div>
-            <div className="kicker">NATURAL • FORMULEPLUS</div>
-            <h1 className="h1">Natuurlijk goed. Eenvoudig besteld.</h1>
-            <p className="lead">Eerlijke ingrediënten, heldere informatie en snelle levering — veilig betalen via iDEAL.</p>
-            <div className="cta">
-              <a className="btn btnGhost" href="#shop">Bekijk assortiment</a>
-              <button
-                className="btn btnPrimary"
-                onClick={async () => {
-                  const first = products.find(p => p.inStock);
-                  if (!first) return;
-                  try {
-                    setLoading(first.id);
-                    await createCheckout(first.id);
-                  } catch (e: any) {
-                    alert(e.message);
-                  } finally {
-                    setLoading(null);
-                  }
-                }}
-                disabled={!featured || loading === featured?.id}
-              >
-                {featured ? (loading === featured.id ? 'Bezig…' : `Snel bestellen: ${featured.name}`) : 'Momenteel uitverkocht'}
-              </button>
-            </div>
-            <div className="badges">
-              <div className="badge">✓ 1–2 werkdagen levering</div>
-              <div className="badge">✓ NL/BE verzending</div>
-              <div className="badge">✓ iDEAL & Apple Pay via Mollie</div>
+        <div className="heroOverlay">
+          <div className="container heroInner">
+            <div>
+              <div className="kicker">NATURAL • FORMULEPLUS</div>
+              <h1 className="h1">Natuurlijk goed. Eenvoudig besteld.</h1>
+              <p className="lead">Eerlijke ingrediënten, heldere informatie en snelle levering — veilig betalen via iDEAL.</p>
+              <div className="cta">
+                <a className="btn btnGhost" href="#shop">Bekijk assortiment</a>
+                <button
+                  className="btn btnPrimary"
+                  onClick={async () => {
+                    const first = products.find(p => p.inStock);
+                    if (!first) return;
+                    try {
+                      setLoading(first.id);
+                      await createCheckout(first.id);
+                    } catch (e: any) {
+                      alert(e.message);
+                    } finally {
+                      setLoading(null);
+                    }
+                  }}
+                  disabled={!featured || loading === featured?.id}
+                >
+                  {featured ? (loading === featured.id ? 'Bezig…' : `Snel bestellen: ${featured.name}`) : 'Momenteel uitverkocht'}
+                </button>
+              </div>
             </div>
           </div>
-          <div aria-hidden="true" />
         </div>
       </section>
 
