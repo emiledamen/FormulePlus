@@ -1,3 +1,4 @@
-PATCH (API NotFound help + Health route)
-app/api/checkout/route.ts
+PATCH (Connectivity check)
+app/api/ping/route.ts
 app/api/health/route.ts
+public/health.txt
