@@ -31,13 +31,13 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
   position:relative;
   background-image:url('/hero-formuleplus.png');
   background-size:cover;
-  background-position:85% center;  /* toon meer van het flesje (rechts) */
+  background-position:92% 45%;   /* iets verder naar rechts en een tikje omhoog */
   background-repeat:no-repeat;
-  min-height:680px;                /* hoger, zodat hele fles zichtbaar is */
+  min-height:610px;              /* ~10% korter t.o.v. 680px */
   border-bottom:1px solid var(--border);
 }
-@media (min-width:1200px){ .hero{ min-height:720px; } }
-@media (max-width:900px){ .hero{ min-height:560px; background-position:center; } }
+@media (min-width:1200px){ .hero{ min-height:650px; } }
+@media (max-width:900px){ .hero{ min-height:520px; background-position:center; } }
 
 /* Subtiele overlay voor leesbaarheid (heel licht) */
 .heroOverlay{
@@ -58,12 +58,12 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
   align-items:center;
   justify-items:center;
   text-align:center;
-  padding:88px 0;
+  padding:72px 0;                /* iets minder padding door lagere hero */
 }
-@media (max-width:900px){ .heroInner{ padding:56px 0; } }
+@media (max-width:900px){ .heroInner{ padding:52px 0; } }
 
 .kicker{color:var(--brand-green);font-weight:800;letter-spacing:.18em;font-size:12px;margin-bottom:8px}
-.h1{font-size:48px;line-height:1.06;margin:0 0 14px 0;color:var(--brand-ink)}
+.h1{font-size:46px;line-height:1.06;margin:0 0 14px 0;color:var(--brand-ink)}
 .lead{color:var(--muted);font-size:18px;margin:0 0 22px 0}
 .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;cursor:pointer;font-weight:700}
