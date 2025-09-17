@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 type Product = {
   id: string;
@@ -40,36 +40,77 @@ export default function Home() {
       .catch(() => setProducts([]));
   }, []);
 
+  const featured = products.find(p => p.inStock) || null;
+  const others = products.filter(p => !featured || p.id !== featured.id);
+
   return (
     <main>
-      <p style={{ color: '#555' }}>Kies een product en betaal veilig via Mollie (iDEAL, etc.).</p>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
-        {products.map((p) => (
-          <div key={p.id} style={{ border: '1px solid #eee', borderRadius: 12, padding: 16 }}>
-            <h3 style={{ marginTop: 0 }}>{p.name}</h3>
-            <p style={{ margin: '8px 0', color: '#555' }}>{p.description}</p>
-            <div style={{ fontWeight: 600, marginBottom: 12 }}>
-              € {p.price.toFixed(2)}
-            </div>
+      <section className="hero">
+        <div className="heroCard">
+          <div className="kicker">NATURAL • FORMULEPLUS</div>
+          <h1 className="h1">Natuurlijke producten, eenvoudig besteld</h1>
+          <p className="lead">
+            Eerlijke ingrediënten, heldere informatie en snelle levering. Betaal veilig via iDEAL.
+          </p>
+          <div className="ctaRow">
+            <a className="btn btnGhost" href="#shop">Bekijk assortiment</a>
             <button
+              className="btn btnPrimary"
               onClick={async () => {
+                const first = products.find(p => p.inStock);
+                if (!first) return;
                 try {
-                  setLoading(p.id);
-                  await createCheckout(p.id);
+                  setLoading(first.id);
+                  await createCheckout(first.id);
                 } catch (e: any) {
                   alert(e.message);
                 } finally {
                   setLoading(null);
                 }
               }}
-              disabled={!p.inStock || loading === p.id}
-              style={{ padding: '10px 14px', borderRadius: 8, border: '1px solid #ddd', background: p.inStock ? '#111' : '#ccc', color: '#fff', cursor: p.inStock ? 'pointer' : 'not-allowed' }}
+              disabled={!featured || loading === featured?.id}
             >
-              {p.inStock ? (loading === p.id ? 'Bezig...' : 'Koop nu') : 'Uitverkocht'}
+              {featured ? (loading === featured.id ? 'Bezig…' : `Snel bestellen: ${featured.name}`) : 'Momenteel uitverkocht'}
             </button>
           </div>
-        ))}
-      </div>
+          <div className="meta">
+            <div>• iDEAL, Apple Pay</div>
+            <div>• 1–2 werkdagen</div>
+            <div>• NL/BE</div>
+          </div>
+        </div>
+        <div>
+          <img src="/logo-formuleplus.png" alt="FormulePlus logo" style={{width:'100%',maxWidth:460,display:'block',margin:'0 auto'}} />
+        </div>
+      </section>
+
+      <section id="shop" style={{marginTop:24}}>
+        <div className="cardGrid">
+          {others.map((p) => (
+            <div key={p.id} className="card">
+              <h3>{p.name}</h3>
+              <p className="lead" style={{margin:'6px 0'}}>{p.description}</p>
+              <div className="price">€ {p.price.toFixed(2)}</div>
+              <button
+                className="buy"
+                onClick={async () => {
+                  try {
+                    setLoading(p.id);
+                    await createCheckout(p.id);
+                  } catch (e: any) {
+                    alert(e.message);
+                  } finally {
+                    setLoading(null);
+                  }
+                }}
+                disabled={!p.inStock || loading === p.id}
+              >
+                {p.inStock ? (loading === p.id ? 'Bezig…' : 'Koop nu') : 'Uitverkocht'}
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
     </main>
   );
 }

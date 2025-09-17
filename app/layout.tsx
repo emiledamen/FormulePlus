@@ -1,21 +1,24 @@
+import './globals.css';
+
 export const metadata = {
-  title: 'Mijn Winkel — Mollie Starter',
-  description: 'Lichte shop met Mollie-betaling'
+  title: 'FormulePlus — Natural',
+  description: 'Natuurlijke producten, eenvoudig online bestellen'
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="nl">
-      <body style={{ fontFamily: 'system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif', margin: 0, padding: 0 }}>
-        <div style={{ maxWidth: 960, margin: '0 auto', padding: 24 }}>
-          <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-            <h1 style={{ margin: 0 }}>Mijn Winkel</h1>
-            <div style={{ opacity: 0.7, fontSize: 12 }}>MVP • Mollie</div>
+      <body>
+        <div className="container">
+          <header className="header">
+            <div className="brand">
+              <img src="/logo-formuleplus.png" alt="FormulePlus" />
+              <div className="name">FormulePlus</div>
+            </div>
+            <div className="badge">MVP • Mollie</div>
           </header>
           {children}
-          <footer style={{ marginTop: 48, paddingTop: 16, borderTop: '1px solid #eee', fontSize: 12, color: '#666' }}>
-            © {new Date().getFullYear()} Mijn Winkel — Betaalprovider: Mollie
-          </footer>
+          <footer>© {new Date().getFullYear()} FormulePlus — Betaalprovider: Mollie</footer>
         </div>
       </body>
     </html>

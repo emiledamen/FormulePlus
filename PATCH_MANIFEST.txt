@@ -1,4 +1,5 @@
-PATCH (Connectivity check)
-app/api/ping/route.ts
-app/api/health/route.ts
-public/health.txt
+PATCH (Homepage + branding)
+public/logo-formuleplus.png
+app/globals.css
+app/layout.tsx
+app/page.tsx
