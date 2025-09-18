@@ -1,16 +1,10 @@
 PATCH_NOTES.md
-Goal: Hero "pagina-vullend" + bovenkant van de afbeelding uitlijnen op de headerbalk.
-Files:
-- FormulePlus/app/globals.css  (1-op-1 vervanging)
+Goal
+- Hero: flesje volledig(er) in beeld brengen en de 'assortiment'-sectie (#shop) laten aansluiten direct onder de hero.
 
-Wijzigingen in .hero:
-- background-position: 92% 0%  (top uitlijnen i.p.v. 25%)
-- height & min-height: calc(100vh - var(--header-height))
-- :root bevat nu --header-height: 72px  (matcht je .headerInner height)
+Wijzigingen
+- .hero → background-position: 92% 14%  (focal point iets naar beneden; meer van de fles zichtbaar)
+- #shop.section → padding-top: 0  (verwijdert de extra bovenmarge van de eerste sectie onder de hero)
 
-Gebruik:
-- Pak deze ZIP uit op de repo-root (geen extra maplaag).
-- Deploy. De hero vult nu het scherm onder de sticky header en toont de bovenkant van de foto precies onder de balk.
-
-Rollback:
-- Vervang globals.css met je vorige versie.
+Gebruik
+- Pak deze ZIP uit op de repo-root en deploy.
