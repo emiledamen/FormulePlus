@@ -1,4 +1,5 @@
 :root{
+  --header-height:72px;
   --brand-cyan:#00A0FF;
   --brand-blue:#0059C9;
   --brand-ink:#103B92;
@@ -32,9 +33,9 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
   background-image:url('/hero-formuleplus.png');
   background-size:cover;
   /* move focal area upward to reveal full cap; keep right alignment for bottle */
-  background-position:92% 25%;
+  background-position:92% 0%;
   background-repeat:no-repeat;
-  min-height:640px;               /* a bit taller than v3 */
+  min-height:calc(100vh - var(--header-height));               /* a bit taller than v3 */
   border-bottom:1px solid var(--border);
 }
 @media (min-width:1200px){ .hero{ min-height:680px; } }

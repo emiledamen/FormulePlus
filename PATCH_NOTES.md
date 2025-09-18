@@ -1,26 +1,16 @@
 PATCH_NOTES.md
-Goal
-- Maak de hero pagina-vullend (100vh onder de vaste/sticky header) en lijn de bovenkant van het plaatje uit op de headerbalk.
+Goal: Hero "pagina-vullend" + bovenkant van de afbeelding uitlijnen op de headerbalk.
+Files:
+- FormulePlus/app/globals.css  (1-op-1 vervanging)
 
-Wat zit er in deze patch
-- src/components/HeroFull.tsx  → Drop-in component die de hero-hoogte zet op `calc(100vh - headerHeight)` en `object-top` gebruikt.
-- src/app/hero-demo/page.tsx   → Optionele demo-route om de hero te testen zonder je bestaande pagina aan te passen.
+Wijzigingen in .hero:
+- background-position: 92% 0%  (top uitlijnen i.p.v. 25%)
+- height & min-height: calc(100vh - var(--header-height))
+- :root bevat nu --header-height: 72px  (matcht je .headerInner height)
 
-Gebruik
-1) Importeer op je homepage (of waar je de hero wilt):
-   import HeroFull from "@/components/HeroFull";
+Gebruik:
+- Pak deze ZIP uit op de repo-root (geen extra maplaag).
+- Deploy. De hero vult nu het scherm onder de sticky header en toont de bovenkant van de foto precies onder de balk.
 
-2) Plaats het component **onder** je vaste header en geef de headerhoogte in pixels mee:
-   <HeroFull headerHeight={72} />
-
-   - Headerhoogte 72px is een veilige default; pas aan naar jouw echte header (bv. 64, 80, 96).
-   - De afbeelding pakt standaard `/hero-formuleplus.webp` (in /public). Verander via prop `src` indien nodig.
-
-3) Wil je eerst testen? Ga naar /hero-demo in je lokale/dev omgeving.
-
-Opmerkingen
-- Er is **geen tekst-overlay**; dit respecteert je eerdere keuze. Je kunt desgewenst children toevoegen aan het component.
-- De afbeelding wordt met `object-cover object-top` gevuld: altijd paginavullend, en de top blijft onder de header zichtbaar.
-
-Rollback
-- Verwijder de bestanden uit deze patch als je wilt terugdraaien.
+Rollback:
+- Vervang globals.css met je vorige versie.

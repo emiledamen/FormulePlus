@@ -1,3 +1,2 @@
 PATCH_MANIFEST.txt
-src/components/HeroFull.tsx
-src/app/hero-demo/page.tsx
+FormulePlus/app/globals.css
