@@ -1,4 +1,5 @@
 :root{
+  --shop-overlap: 180px;  /* hoeveel #shop over de hero schuift */
   --header-height:72px;
   --brand-cyan:#00A0FF;
   --brand-blue:#0059C9;
@@ -28,16 +29,7 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
 .nav a:hover{color:var(--brand-blue)}
 
 /* HERO uses /public/hero-formuleplus.png */
-.hero{
-  position:relative;
-  background-image:url('/hero-formuleplus.png');
-  background-size:cover;
-  /* move focal area upward to reveal full cap; keep right alignment for bottle */
-  background-position:92% 14%;
-  background-repeat:no-repeat;
-  min-height:calc(100vh - var(--header-height));               /* a bit taller than v3 */
-  border-bottom:1px solid var(--border);
-}
+.hero{ position:relative; background-image:url('/hero-formuleplus.png'); background-size:cover; /* move focal area upward to reveal full cap; keep right alignment for bottle */ background-position:92% 0%; background-repeat:no-repeat; min-height:calc(100vh - var(--header-height)); /* a bit taller than v3 */ border-bottom:1px solid var(--border); }
 @media (min-width:1200px){ .hero{ min-height:680px; } }
 @media (max-width:900px){ .hero{ min-height:520px; background-position:center 35%; } }
 
@@ -76,4 +68,21 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
 .footer{margin-top:40px;border-top:1px solid var(--border);background:var(--surface)}
 .footerInner{height:68px;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:#64748b}
 
-#shop.section{padding-top:0}
+
+/* SHOP over de hero schuiven met transparante laag → "one page" effect */
+#shop.section{
+  position: relative;
+  z-index: 2;
+  margin-top: calc(var(--shop-overlap) * -1);
+  scroll-margin-top: var(--header-height);
+  background: rgba(255,255,255,0.72);          /* transparante layer */
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding-top: 24px;                            /* iets compacter boven */
+  padding-bottom: 32px;
+}
+/* Zorg dat de container niet aan de randen plakt binnen de glass-laag */
+#shop.section .container{ padding-left: 24px; padding-right: 24px; }
