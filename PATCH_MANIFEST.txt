@@ -1,4 +1,3 @@
-PATCH (Hero background with supplied image)
+PATCH_MANIFEST.txt
 public/hero-formuleplus.png
-app/globals.css
-app/page.tsx
+public/hero-formuleplus.webp
