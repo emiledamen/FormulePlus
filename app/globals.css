@@ -1,7 +1,4 @@
 :root{
-  --shop-overlap:160px; /* overlap van #shop over hero */
-  --hero-trim:80px; /* ~2 cm minder hoogte */
-  --hero-ratio:0.509766; /* 2048x1042 */
   --header-height:72px;
   --brand-cyan:#00A0FF;
   --brand-blue:#0059C9;
@@ -32,15 +29,13 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
 
 /* HERO uses /public/hero-formuleplus.png */
 .hero{
-  height: calc((100vw * var(--hero-ratio)) - var(--hero-trim));
-  min-height: calc((100vw * var(--hero-ratio)) - var(--hero-trim));
   position:relative;
-  background-image:url('/hero-formuleplus.png');
-  background-size:cover;
-  /* move focal area upward to reveal full cap; keep right alignment for bottle */
-  background-position:92% 25%;
+  background-image:url("/hero-formuleplus.webp"), url("/hero-formuleplus.png");
+  background-size:contain;
+  background-position:50% 0%;
   background-repeat:no-repeat;
-  min-               /* a bit taller than v3 */
+  height: calc((100vw * 0.509766) - 80px);
+  min-height: calc((100vw * 0.509766) - 80px);
   border-bottom:1px solid var(--border);
 }
 @media (min-width:1200px){ .hero{ min-height:680px; } }
@@ -81,26 +76,4 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
 .footer{margin-top:40px;border-top:1px solid var(--border);background:var(--surface)}
 .footerInner{height:68px;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:#64748b}
 
-
-/* SHOP over de hero met transparante 'glass' laag */
-#shop.section{
-  position: relative;
-  z-index: 2;
-  margin-top: calc(var(--shop-overlap) * -1);
-  scroll-margin-top: var(--header-height);
-  background: rgba(255,255,255,0.78);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  box-shadow: var(--shadow);
-  padding-top: 20px;
-  padding-bottom: 32px;
-}
-
-
-
-@media (max-width: 900px){
-  #shop.section{ margin-top: calc((var(--shop-overlap) - 40px) * -1); }
-}
-
+#shop.section{ padding-top:28px; }
