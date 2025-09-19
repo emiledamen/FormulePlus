@@ -30,9 +30,10 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
 .hero{
   position: relative;
   background-image: url("/hero-formuleplus.webp"), url("/hero-formuleplus.png");
-  background-size: cover;       /* vul volledig, mag croppen */
-  background-position: 50% 0%;  /* top aligned */
+  background-size: auto 100%;   /* schaal de AFBEELDING op 600px hoog (containerhoogte) */
+  background-position: 50% 0%;  /* center-top */
   background-repeat: no-repeat;
+  background-color: #eaf4fb;    /* zachte luchtkleur voor eventuele zijkanten */
   height: 600px;
   min-height: 600px;
   border-bottom: 1px solid var(--border);
@@ -41,9 +42,10 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
 @media (max-width:900px){ .hero{
   position: relative;
   background-image: url("/hero-formuleplus.webp"), url("/hero-formuleplus.png");
-  background-size: cover;       /* vul volledig, mag croppen */
-  background-position: 50% 0%;  /* top aligned */
+  background-size: auto 100%;   /* schaal de AFBEELDING op 600px hoog (containerhoogte) */
+  background-position: 50% 0%;  /* center-top */
   background-repeat: no-repeat;
+  background-color: #eaf4fb;    /* zachte luchtkleur voor eventuele zijkanten */
   height: 600px;
   min-height: 600px;
   border-bottom: 1px solid var(--border);
