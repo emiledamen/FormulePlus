@@ -44,7 +44,7 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
   background-size: contain;
   background-position: 50% 0%;
   background-repeat: no-repeat;
-  height: 500px;
+  height: 600px;
   min-height: 500px;
   border-bottom: 1px solid var(--border);
 } }
