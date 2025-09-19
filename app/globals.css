@@ -30,22 +30,22 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
 .hero{
   position: relative;
   background-image: url("/hero-formuleplus.webp"), url("/hero-formuleplus.png");
-  background-size: contain;
-  background-position: 50% 0%;
+  background-size: cover;       /* vul volledig, mag croppen */
+  background-position: 50% 0%;  /* top aligned */
   background-repeat: no-repeat;
-  height: 500px;
-  min-height: 500px;
+  height: 600px;
+  min-height: 600px;
   border-bottom: 1px solid var(--border);
 }
 
 @media (max-width:900px){ .hero{
   position: relative;
   background-image: url("/hero-formuleplus.webp"), url("/hero-formuleplus.png");
-  background-size: contain;
-  background-position: 50% 0%;
+  background-size: cover;       /* vul volledig, mag croppen */
+  background-position: 50% 0%;  /* top aligned */
   background-repeat: no-repeat;
   height: 600px;
-  min-height: 500px;
+  min-height: 600px;
   border-bottom: 1px solid var(--border);
 } }
 
