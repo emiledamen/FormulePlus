@@ -76,28 +76,47 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
 .footerInner{height:68px;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:#64748b}
 
 
-/* --- Horizontale lopende shop-balk --- */
-.shopScroller{
-  position: relative;
+/* Full-width scrolling shop marquee */
+.shopMarquee{
+  width: 100%;
   overflow: hidden;
-  padding-bottom: 4px;
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.85);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
 }
 .shopTrack{
   display: flex;
   gap: 16px;
   width: max-content;
   animation: shop-marquee 28s linear infinite;
+  padding-left: 16px;
 }
-.productCard{
-  min-width: 260px;
-  max-width: 280px;
-}
+.shopMarquee:hover .shopTrack{ animation-play-state: paused; }
 @keyframes shop-marquee{
   from{ transform: translateX(0); }
   to{ transform: translateX(-50%); }
 }
-/* Dubbel renderen op small screens voor vollere loop */
-@media (max-width: 900px){
-  .productCard{ min-width: 220px; }
-  .shopTrack{ animation-duration: 22s; }
+.prodCard{
+  min-width: 240px;
+  max-width: 260px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 12px;
+}
+.prodBody{ gap: 6px; display:flex; flex-direction:column; }
+.prodTitle{ font-weight:600; color:var(--ink); }
+.prodDesc{ color:var(--muted); font-size:14px; line-height:1.3; }
+.prodPrice{ margin-top:6px; color:var(--brand-ink); font-weight:600; }
+.btnSmall{ padding:6px 10px; font-size:14px; align-self:flex-start; margin-top:8px; }
+@media (max-width: 640px){
+  .prodCard{ min-width: 200px; }
+  .shopTrack{ gap: 12px; }
 }
