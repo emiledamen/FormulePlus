@@ -28,28 +28,17 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
 
 /* HERO uses /public/hero-formuleplus.png */
 .hero{
-  position: relative;
-  background-image: url("/hero-formuleplus.webp"), url("/hero-formuleplus.png");
-  background-size: auto 100%;   /* schaal de AFBEELDING op 600px hoog (containerhoogte) */
-  background-position: 50% 0%;  /* center-top */
-  background-repeat: no-repeat;
-  background-color: #eaf4fb;    /* zachte luchtkleur voor eventuele zijkanten */
-  height: 600px;
-  min-height: 600px;
-  border-bottom: 1px solid var(--border);
+  position:relative;
+  background-image:url('/hero-formuleplus.png');
+  background-size:cover;
+  /* move focal area upward to reveal full cap; keep right alignment for bottle */
+  background-position:92% 25%;
+  background-repeat:no-repeat;
+  min-height:640px;               /* a bit taller than v3 */
+  border-bottom:1px solid var(--border);
 }
-
-@media (max-width:900px){ .hero{
-  position: relative;
-  background-image: url("/hero-formuleplus.webp"), url("/hero-formuleplus.png");
-  background-size: auto 100%;   /* schaal de AFBEELDING op 600px hoog (containerhoogte) */
-  background-position: 50% 0%;  /* center-top */
-  background-repeat: no-repeat;
-  background-color: #eaf4fb;    /* zachte luchtkleur voor eventuele zijkanten */
-  height: 600px;
-  min-height: 600px;
-  border-bottom: 1px solid var(--border);
-} }
+@media (min-width:1200px){ .hero{ min-height:680px; } }
+@media (max-width:900px){ .hero{ min-height:520px; background-position:center 35%; } }
 
 /* Overlay removed */
 .heroOverlay{ background:none; width:100%; height:100%; }
@@ -85,3 +74,30 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
 
 .footer{margin-top:40px;border-top:1px solid var(--border);background:var(--surface)}
 .footerInner{height:68px;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:#64748b}
+
+
+/* --- Horizontale lopende shop-balk --- */
+.shopScroller{
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 4px;
+}
+.shopTrack{
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  animation: shop-marquee 28s linear infinite;
+}
+.productCard{
+  min-width: 260px;
+  max-width: 280px;
+}
+@keyframes shop-marquee{
+  from{ transform: translateX(0); }
+  to{ transform: translateX(-50%); }
+}
+/* Dubbel renderen op small screens voor vollere loop */
+@media (max-width: 900px){
+  .productCard{ min-width: 220px; }
+  .shopTrack{ animation-duration: 22s; }
+}

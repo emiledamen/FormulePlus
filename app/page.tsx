@@ -78,33 +78,44 @@ export default function Home() {
         </div>
       </section>
 
+      
       <section id="shop" className="container section">
-        <div className="grid">
-          {others.map((p) => (
-            <div key={p.id} className="card">
-              <h3>{p.name}</h3>
-              <p>{p.description}</p>
-              <div className="price">€ {p.price.toFixed(2)}</div>
-              <button
-                className="buy"
-                onClick={async () => {
-                  try {
-                    setLoading(p.id);
-                    await createCheckout(p.id);
-                  } catch (e: any) {
-                    alert(e.message);
-                  } finally {
-                    setLoading(null);
-                  }
-                }}
-                disabled={!p.inStock || loading === p.id}
-              >
-                {p.inStock ? (loading === p.id ? 'Bezig…' : 'Koop nu') : 'Uitverkocht'}
-              </button>
-            </div>
-          ))}
+        <h2 style={{margin:'0 0 12px 0',color:'var(--brand-ink)'}}>Shop</h2>
+        <div className="shopScroller">
+          <div className="shopTrack">
+            {(function(){
+              // herhaal producten zodat we ~6+ kaarten hebben voor een vloeiende loop
+              const items = others.length ? others : [];
+              const repeat = Math.max(2, Math.ceil(6 / Math.max(1, items.length)));
+              const looped: typeof items = Array.from({length: repeat}, () => items).flat();
+              return looped.map((p, idx) => (
+                <div key={p.id + '-' + idx} className="card productCard">
+                  <h3>{p.name}</h3>
+                  <p>{p.description}</p>
+                  <div className="price">€ {p.price.toFixed(2)}</div>
+                  <button
+                    className="buy"
+                    onClick={async () => {
+                      try {
+                        setLoading(p.id);
+                        await createCheckout(p.id);
+                      } catch (e: any) {
+                        alert(e.message);
+                      } finally {
+                        setLoading(null);
+                      }
+                    }}
+                    disabled={!p.inStock || loading === p.id}
+                  >
+                    {p.inStock ? (loading === p.id ? 'Bezig…' : 'Koop nu') : 'Uitverkocht'}
+                  </button>
+                </div>
+              ));
+            })()}
+          </div>
         </div>
       </section>
+
 
       <section id="over" className="container section" style={{paddingTop:0}}>
         <h2 style={{margin:'0 0 6px 0',color:'var(--brand-ink)'}}>Over FormulePlus</h2>
