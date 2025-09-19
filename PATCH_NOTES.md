@@ -1,7 +1,8 @@
 PATCH_NOTES.md
-Goal: Zet het meegeleverde beeld als hero (exact passend met de huidige 600px-hoogte instellingen).
+Goal: Gebruik het bredere beeld als hero.
 Files:
 - public/hero-formuleplus.png
 - public/hero-formuleplus.webp
+
 Gebruik:
-- Pak deze ZIP uit op de repo-root. Je CSS is al ingesteld om op 600px te renderen; dit beeld past dan precies.
+- Pak deze ZIP uit op de repo-root. Met je huidige CSS (height: 600px; background-size: auto 100%) past dit beeld netjes in de hero-hoogte.
