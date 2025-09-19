@@ -28,26 +28,17 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
 
 /* HERO uses /public/hero-formuleplus.png */
 .hero{
-  position: relative;
-  background-image: url('/hero-formuleplus.png');
-  background-size: auto 100%;   /* volledige hoogte */
-  background-position: 92% 0%;  /* rechts-top focus */
-  background-repeat: no-repeat;
-  height: 600px;
-  min-height: 600px;
-  border-bottom: 1px solid var(--border);
+  position:relative;
+  background-image:url('/hero-formuleplus.png');
+  background-size:cover;
+  /* move focal area upward to reveal full cap; keep right alignment for bottle */
+  background-position:92% 25%;
+  background-repeat:no-repeat;
+  min-height:640px;               /* a bit taller than v3 */
+  border-bottom:1px solid var(--border);
 }
-
-@media (max-width:900px){ .hero{
-  position: relative;
-  background-image: url('/hero-formuleplus.png');
-  background-size: auto 100%;   /* volledige hoogte */
-  background-position: 92% 0%;  /* rechts-top focus */
-  background-repeat: no-repeat;
-  height: 600px;
-  min-height: 600px;
-  border-bottom: 1px solid var(--border);
-} }
+@media (min-width:1200px){ .hero{ min-height:680px; } }
+@media (max-width:900px){ .hero{ min-height:520px; background-position:center 35%; } }
 
 /* Overlay removed */
 .heroOverlay{ background:none; width:100%; height:100%; }
@@ -98,8 +89,8 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
   animation: shop-marquee 28s linear infinite;
 }
 .productCard{
-  min-width: 260px;
-  max-width: 280px;
+  min-width: 390px;
+  max-width: 420px;
 }
 @keyframes shop-marquee{
   from{ transform: translateX(0); }
@@ -107,18 +98,13 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
 }
 /* Dubbel renderen op small screens voor vollere loop */
 @media (max-width: 900px){
-  .productCard{ min-width: 220px; }
+  .productCard{ min-width: 330px; }
   .shopTrack{ animation-duration: 22s; }
 }
 
 
-/* Shop full-width marquee and hide title */
-section#shop.container{ max-width: none; width: 100%; padding-left: 0; padding-right: 0; }
-section#shop > h2{ display: none; }
-.shopScroller{ width: 100%; overflow: hidden; }
-.shopTrack{ display: flex; gap: 16px; width: max-content; animation: shop-marquee 28s linear infinite; padding: 12px 16px; }
-section#shop:hover .shopTrack{ animation-play-state: paused; }
-.productCard{ min-width: 260px; max-width: 280px; }
-@keyframes shop-marquee{ from{ transform: translateX(0); } to{ transform: translateX(-50%); } }
-@media (max-width: 900px){ .productCard{ min-width: 220px; } .shopTrack{ animation-duration: 22s; } }
+/* Tweaks per klant: grotere kaarten, radius 2px, titel donkerblauw, shopbalk 20px omhoog */
+.card, .productCard{ border-radius: 2px !important; }
+.productCard h3{ color: var(--brand-ink); } /* zelfde donkerblauw als 'Natuurlijk goed.' */
+section#shop.container{ margin-top: -20px; } /* balk 20px omhoog */
 
