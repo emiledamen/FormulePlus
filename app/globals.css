@@ -102,13 +102,26 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
   .shopTrack{ animation-duration: 22s; }
 }
 
-/* --- FORMULEPLUS PATCH: square + wider shop cards, bar touches hero --- */
-.productCard{ min-width: 440px !important; max-width: 480px !important; }
-@media (max-width: 900px){
-  .productCard{ min-width: 360px !important; }
+
+/* --- FORMULEPLUS PATCH: shop full-bleed + hide title + card sizing --- */
+section#shop.container{ max-width: none !important; width: 100% !important; padding-left: 0; padding-right: 0; margin-top: 0 !important; }
+section#shop h1, section#shop h2, section#shop h3, section#shop .sectionTitle, section#shop header, section#shop .title{ display: none !important; }
+
+/* Full-bleed scroller area */
+section#shop .shopScroller{
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  padding-top: 0;
+  padding-left: 16px;
+  padding-right: 16px;
 }
-.productCard, .marqueeCard{ aspect-ratio: 1 / 1; overflow: hidden; }
-.card, .productCard{ border-radius: 2px !important; }
-section#shop.container{ margin-top: 0 !important; }
-.shopScroller{ padding-top: 0 !important; }
+section#shop .shopTrack{ width: max-content; display:flex; gap:16px; }
+
+/* Cards: broader and landscape (half as high as wide), sharp corners */
+.productCard{ min-width: 440px; max-width: 480px; border-radius: 0 !important; }
+.productCard, .marqueeCard{ aspect-ratio: 2 / 1; overflow: hidden; }
+@media (max-width: 900px){
+  .productCard{ min-width: 360px; }
+}
 
