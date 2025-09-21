@@ -103,44 +103,26 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
 }
 
 
-/* === FORMULEPLUS PATCH: baseline + laatste goede wijzigingen (v2) === */
-
-/* 1) Shop titel definitief weg */
-section#shop h1,
-section#shop h2,
-section#shop h3,
-section#shop .sectionTitle,
-section#shop header,
-section#shop .title { display: none !important; }
-
-/* 2) Shop full-bleed, strak onder hero */
+/* === FORMULEPLUS PATCH: hero-shop seamless join (aggressive) === */
+section#shop{
+  /* haal alle sectie-topruimte weg die uit globale .section kan komen */
+  padding-top: 0 !important;
+  margin-top: -48px !important;   /* compenseert ~40–45px globale sectie-padding */
+}
 section#shop.container{
   max-width: none !important;
   width: 100% !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
-  margin-top: -1px !important; /* overlap hero border: naadloze aansluiting */
+  /* behoud de overlap met de hero-border, maar neem de -48px over als sterkste regel */
+  margin-top: -48px !important;
   border-top: 0 !important;
 }
-section#shop .shopScroller{
-  width: 100vw !important;
-  margin-left: 50% !important;
-  transform: translateX(-50%) !important;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  padding-top: 0 !important;
-}
-
-/* 3) Cards naast elkaar zonder ruimte + juiste maat */
-section#shop .shopTrack{ width: max-content !important; display:flex !important; gap: 0 !important; }
-.productCard, .marqueeCard{
-  margin: 0 !important;
-  border-radius: 0 !important;     /* rechte hoeken */
-  aspect-ratio: 2 / 1 !important;  /* half zo hoog als breed */
-  overflow: hidden;
-}
-.productCard{ min-width: 440px !important; max-width: 480px !important; }
-@media (max-width: 900px){
-  .productCard{ min-width: 360px !important; }
-}
+/* nullificeer mogelijke top-margins/paddings op eerste child */
+section#shop > *:first-child{ margin-top: 0 !important; padding-top: 0 !important; }
+section#shop .shopScroller{ padding-top: 0 !important; margin-top: 0 !important; }
+section#shop .shopTrack{ margin-top: 0 !important; }
+/* cards blijven tegen elkaar en met rechte hoeken */
+section#shop .shopTrack{ gap: 0 !important; }
+.productCard, .marqueeCard{ margin: 0 !important; border-radius: 0 !important; }
 
