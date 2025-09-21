@@ -19,8 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="container headerInner">
             <div className="brand">
               <img src="/logo-formuleplus.png" alt="FormulePlus" />
-              <div className="brandName">FormulePlus</div>
-            </div>
+                          </div>
             <nav className="nav" aria-label="Hoofdmenu">
               <a href="#shop">Shop</a>
               <a href="#over">Over</a>
