@@ -20,7 +20,7 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
 .header{position:sticky;top:0;background:var(--surface);border-bottom:1px solid var(--border);z-index:20}
 .headerInner{display:flex;align-items:center;justify-content:space-between;height:72px}
 .brand{display:flex;gap:10px;align-items:center}
-.brand img{height:48px;width:auto;image-rendering:auto}
+.brand img{height:52px;width:auto;image-rendering:auto}
 .brandName{font-weight:800;letter-spacing:.2px;color:var(--brand-ink)}
 .nav{display:flex;gap:20px;font-size:14px;color:#334155}
 .nav a{color:inherit;text-decoration:none}
@@ -36,10 +36,9 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
   background-repeat:no-repeat;
   min-height:600px;               /* a bit taller than v3 */
   border-bottom:1px solid var(--border);
-}
+ margin-top:-30px;}
 @media (min-width:1200px){ .hero{ min-height:680px; } }
-@media (max-width:900px){ .hero{ min-height:520px; background-position:center 35%;  .productCard{ min-width:360px; } }
- }
+@media (max-width:900px){ .hero{ min-height:520px; background-position:center 35%; } }
 
 /* Overlay removed */
 .heroOverlay{ background:none; width:100%; height:100%; }
@@ -103,13 +102,14 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
   .shopTrack{ animation-duration: 22s; }
 }
 
-section#shop.container{ max-width:none; width:100%; padding-left:0; padding-right:0; margin-top:-48px; border-top:0; }
+@keyframes shopScrollX {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 
-section#shop{ padding-top:0; }
+section#shop\s*\.shopTrack{ width:max-content; display:flex; gap:0; animation:shopScrollX 24s linear infinite; }
 
-section#shop .shopScroller{ width:100vw; margin-left:50%; transform:translateX(-50%); padding-left:0; padding-right:0; padding-top:0; }
-
-section#shop .shopTrack{ width:max-content; display:flex; gap:0; }
+section#shop\s*\.shopScroller{ width:100vw; margin-left:50%; transform:translateX(-50%); padding-left:0; padding-right:0; padding-top:0; }
 
 section#shop h1, section#shop h2, section#shop h3, section#shop .sectionTitle, section#shop header, section#shop .title{ display:none; }
 
