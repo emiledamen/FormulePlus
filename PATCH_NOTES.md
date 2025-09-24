@@ -1,8 +1,8 @@
 PATCH_NOTES.md
-Goal: Gebruik het bredere beeld als hero.
-Files:
-- public/hero-formuleplus.png
-- public/hero-formuleplus.webp
+Baseline: FormulePlus-240797754488c187166ae905794dda18978f615a
 
-Gebruik:
-- Pak deze ZIP uit op de repo-root. Met je huidige CSS (height: 600px; background-size: auto 100%) past dit beeld netjes in de hero-hoogte.
+Enkel de volgende minimale aanpassingen:
+- `.hero` → `margin-top: -30px;` (behouden)
+- `section#shop` → `margin-top: 60px;` (shoprol 60px lager)
+
+Bestandspaden zijn root-relatief. Pak uit op de **repo-root** en laat `app/globals.css` overschrijven.
