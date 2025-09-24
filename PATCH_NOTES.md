@@ -1,6 +1,7 @@
 PATCH_NOTES.md
-- Shop full-bleed (100vw) en flush onder hero (−48px). Titels verborgen.
-- Cards: 440/480 (mobile 360), 2:1, rechte hoeken, gap 0, onderling aansluiten.
-- **Seamless loop**: keyframes + lijst verdubbeld voor vloeiende doorloop.
-- Hero: links-boven 600px, −30px omhoog; Logo 52px.
-Uitpakken op repo-root en `app/*` overschrijven.
+Append-only CSS die forceert:
+- **Full-bleed** shop over 100vw (ongeacht container), gecentreerd.
+- **Naadloos** onder de hero (gap weg met `margin-top:-60px` + reset van top-padding/margins).
+- **Cards flush** (gap:0, geen afronding) + breedtes: 440/480 (mobile 360).
+
+Uitpakken op repo-root en `app/globals.css` overschrijven.
