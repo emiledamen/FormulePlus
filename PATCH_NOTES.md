@@ -1,7 +1,7 @@
 PATCH_NOTES.md
-Append-only CSS (plak dit blok ONDERAAN je bestaande `app/globals.css`):
-1) Fixed header-logo: richt zich op `img.brand` (niet `.brand img`) zodat het logo 52px blijft en nooit full-width wordt getrokken.
-2) Hero blijft -30px omhoog (links-boven, 600px).
-3) Shop full-bleed + flush, strak gescope'd op `section#shop` zodat de header/layout niet geraakt wordt.
-
-Als je wilt, lever ik ook een 1-op-1 versie van je volledige `globals.css` met dit blok al appended.
+1-op-1 vervanging, op repo-root uitpakken:
+- `app/globals.css`: 
+  - `img.brand { height:52px; width:auto; }` (logo blijft netjes, geen full-width)
+  - `.hero { margin-top:-30px; background-position:0% 0%; background-size:auto 100%; height:600px; min-height:600px; }`
+  - Shop: full-bleed 100vw, gecentreerd, titels verborgen, track zonder gap + animatie, kaarten 440/480 (mobile 360), 2:1, rechte hoeken
+- `app/page.tsx`: shop-items verdubbeld (`__loop = [...items, ...items]`) voor **naadloze** loop (geen hapering/restart).
