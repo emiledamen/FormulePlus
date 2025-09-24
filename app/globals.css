@@ -1,8 +1,22 @@
 
-/* === FORMULEPLUS STABLE OVERRIDE (keep logo & hero, fix shop) === */
-/* Preserve logo size */
-.siteHeader .brand img{ height:52px !important; width:auto; }
-/* Preserve hero position & sizing */
+/* === FORMULEPLUS CORRECTIE: header-logo fix + hero/shop stabiel === */
+
+/* 1) Header-logo: target the actual <img class="brand"> to avoid accidental full-width */
+img.brand{
+  height:52px !important;
+  width:auto !important;
+  max-width:none !important;
+  display:inline-block !important;
+}
+/* Ensure the wrapper isn't forced wide or transformed */
+.siteHeader .brand{
+  width:auto !important;
+  max-width:none !important;
+  margin:0 !important;
+  transform:none !important;
+}
+
+/* 2) Hero blijft op de afgesproken plek */
 .hero{
   margin-top:-30px !important;
   background-position:0% 0% !important;
@@ -11,16 +25,16 @@
   min-height:600px !important;
 }
 
-/* Shop: full-bleed + flush join + tight cards */
+/* 3) Shop full-bleed en flush, maar strikt gescope'd zodat de header nooit geraakt wordt */
 section#shop{ padding-top:0 !important; margin-top:-48px !important; border-top:0 !important; }
-section#shop > *:first-child{ margin-top:0 !important; padding-top:0 !important; }
-section#shop, section#shop .container, section#shop .content, section#shop .shopScroller{
-  max-width:none !important;
+section#shop.container{ max-width:none !important; width:100% !important; padding-left:0 !important; padding-right:0 !important; }
+section#shop .shopScroller{
   width:100vw !important;
   margin-left:50% !important;
   transform:translateX(-50%) !important;
   padding-left:0 !important;
   padding-right:0 !important;
+  padding-top:0 !important;
 }
 section#shop .shopTrack{ width:max-content !important; display:flex !important; gap:0 !important; }
 .productCard, .marqueeCard{ margin:0 !important; border-radius:0 !important; }
