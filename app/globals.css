@@ -114,3 +114,8 @@ section#shop .shopTrack{ width:max-content; display:flex; gap:0; }
 section#shop h1, section#shop h2, section#shop h3, section#shop .sectionTitle, section#shop header, section#shop .title{ display:none; }
 
 .productCard, .marqueeCard{ aspect-ratio:2 / 1; margin:0; overflow:hidden; }
+
+/* --- FormulePlus: hero & shop offset (baseline + succesvolle wijzigingen) --- */
+.hero { margin-top: -30px; }          /* blijft zoals afgesproken */
+section#shop { margin-top: 80px; }    /* shoprol 80px lager t.o.v. hero */
+
