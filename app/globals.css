@@ -36,7 +36,7 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-se
   background-repeat:no-repeat;
   min-height:600px;               /* a bit taller than v3 */
   border-bottom:1px solid var(--border);
- margin-top:-30px;}
+ margin-top:-20px;}
 @media (min-width:1200px){ .hero{ min-height:680px; } }
 @media (max-width:900px){ .hero{ min-height:520px; background-position:center 35%;  .productCard{ min-width:360px; } }
  }
@@ -115,7 +115,5 @@ section#shop h1, section#shop h2, section#shop h3, section#shop .sectionTitle, s
 
 .productCard, .marqueeCard{ aspect-ratio:2 / 1; margin:0; overflow:hidden; }
 
-/* --- FormulePlus: hero & shop offset (baseline + succesvolle wijzigingen) --- */
-.hero { margin-top: -30px; }          /* blijft zoals afgesproken */
-section#shop { margin-top: 80px; }    /* shoprol 80px lager t.o.v. hero */
+
 
