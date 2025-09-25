@@ -1,17 +1,20 @@
-import NextAuth, { type NextAuthConfig } from "next-auth";
+// lib/auth.ts
+import type { NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
-import { PrismaAdapter } from "@auth/prisma-adapter";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export const authConfig: NextAuthConfig = {
-  adapter: PrismaAdapter(prisma) as any,
+export const authOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
   pages: { signIn: "/login" },
   providers: [
     EmailProvider({
+      maxAge: 15 * 60,
       sendVerificationRequest: async ({ identifier, url }) => {
         const { host } = new URL(url);
         const brand = process.env.NEXT_PUBLIC_BRAND_NAME ?? "FormulePlus";
@@ -36,7 +39,6 @@ export const authConfig: NextAuthConfig = {
           html,
         });
       },
-      maxAge: 15 * 60,
     }),
   ],
   callbacks: {
@@ -51,4 +53,5 @@ export const authConfig: NextAuthConfig = {
   },
 };
 
-export const { handlers, signIn, signOut, auth } = NextAuth(authConfig);
+const handler = NextAuth(authOptions);
+export const nextAuthHandler = handler;
