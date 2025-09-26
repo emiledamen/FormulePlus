@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "../../../../../lib/prisma";
 import { z } from "zod";
 
 const updateSchema = z.object({
@@ -23,7 +23,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   const p = parsed.data;
 
   const updated = await prisma.$transaction(async (tx) => {
-    const prod = await tx.product.update({
+    await tx.product.update({
       where: { id: params.id },
       data: {
         name: p.name ?? undefined,

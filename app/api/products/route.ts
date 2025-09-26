@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "../../../../lib/prisma";
 import { z } from "zod";
 
 const productSchema = z.object({
@@ -37,6 +37,7 @@ export async function POST(req: Request) {
   const parsed = productSchema.safeParse(data);
   if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   const p = parsed.data;
+
   const created = await prisma.product.create({
     data: {
       name: p.name,
@@ -53,5 +54,6 @@ export async function POST(req: Request) {
     },
     include: { images: true },
   });
+
   return NextResponse.json(created, { status: 201 });
 }
