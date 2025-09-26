@@ -3,7 +3,7 @@ import type { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "./prisma";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.role = (user as any).role ?? "user";
+      if (user) (token as any).role = (user as any).role ?? "user";
       return token;
     },
     async session({ session, token }) {
