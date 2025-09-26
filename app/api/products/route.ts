@@ -1,6 +1,5 @@
-// app/api/products/route.ts
 import { NextResponse } from "next/server";
-import { prisma } from "../../../../lib/prisma";
+import { prisma } from "../../../lib/prisma";
 import { z } from "zod";
 
 const productSchema = z.object({
@@ -55,5 +54,6 @@ export async function POST(req: Request) {
     },
     include: { images: true },
   });
+
   return NextResponse.json(created, { status: 201 });
 }

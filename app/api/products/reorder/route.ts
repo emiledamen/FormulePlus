@@ -1,6 +1,5 @@
-// app/api/products/reorder/route.ts
 import { NextResponse } from "next/server";
-import { prisma } from "../../../../../lib/prisma";
+import { prisma } from "../../../../lib/prisma";
 import { z } from "zod";
 
 const schema = z.array(z.object({ id: z.string(), orderIndex: z.number().int() }));
