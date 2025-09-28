@@ -6,8 +6,6 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./prisma";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
@@ -15,7 +13,15 @@ export const authOptions: NextAuthOptions = {
   providers: [
     EmailProvider({
       maxAge: 15 * 60,
-      sendVerificationRequest: async ({ identifier, url }) => {
+      async sendVerificationRequest({ identifier, url }) {
+        const apiKey = process.env.RESEND_API_KEY;
+        // Build-safe: don't crash during static analysis or build
+        if (!apiKey) {
+          console.warn("[auth] RESEND_API_KEY ontbreekt - e-mail niet verzonden (build/dev). URL:", url);
+          return;
+        }
+        const resend = new Resend(apiKey);
+
         const { host } = new URL(url);
         const brand = process.env.NEXT_PUBLIC_BRAND_NAME ?? "FormulePlus";
         const subject = `Log in bij ${brand}`;
