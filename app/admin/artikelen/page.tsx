@@ -1,66 +1,96 @@
-"use client";
-import useSWR from "swr";
-import { useState } from "react";
+'use client';
 
-const fetcher = (url: string) => fetch(url).then((r) => r.json());
+import useSWR from 'swr';
 
-export default function AdminProductsPage() {
-  const { data, mutate } = useSWR("/api/products", fetcher);
-  const [form, setForm] = useState({ name: "", slug: "", priceCents: 0, stock: 0 });
+type Image = { id?: string; url: string; alt?: string; sortIndex?: number };
+type Product = {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  priceCents: number;
+  stock: number;
+  sku?: string | null;
+  status: 'DRAFT' | 'PUBLISHED';
+  orderIndex: number;
+  images: Image[];
+  createdAt?: string;
+};
 
-  const create = async () => {
-    const res = await fetch("/api/products", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: form.name,
-        slug: form.slug,
-        priceCents: Number(form.priceCents),
-        stock: Number(form.stock),
-        status: "DRAFT",
-        orderIndex: (data?.length ?? 0),
-        images: [],
-      }),
-    });
-    if (res.ok) {
-      setForm({ name: "", slug: "", priceCents: 0, stock: 0 });
-      mutate();
-    } else {
-      alert("Kon artikel niet aanmaken");
-    }
-  };
+const fetcher = (url: string) => fetch(url, { cache: 'no-store' }).then((r) => r.json());
+
+export default function AdminArtikelenPage() {
+  const { data, error, isLoading, mutate } = useSWR<Product[]>('/api/products', fetcher);
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-semibold mb-4">Artikelen</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <input className="border rounded p-2" placeholder="Naam" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-        <input className="border rounded p-2" placeholder="Slug" value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} />
-        <input className="border rounded p-2" type="number" placeholder="Prijs in cents" value={form.priceCents} onChange={(e) => setForm({ ...form, priceCents: Number(e.target.value) })} />
-        <input className="border rounded p-2" type="number" placeholder="Voorraad" value={form.stock} onChange={(e) => setForm({ ...form, stock: Number(e.target.value) })} />
-        <button className="bg-black text-white rounded px-4 py-2" onClick={create}>Nieuw artikel</button>
-      </div>
+    <main style={styles.main}>
+      <section style={styles.header}>
+        <h1 style={styles.h1}>Artikelen</h1>
+        <p style={styles.sub}>Read-only lijst (Stap 2) — geladen via /api/products, gesorteerd op <code>orderIndex</code>.</p>
+      </section>
 
-      <table className="w-full border-collapse">
-        <thead>
-          <tr className="text-left border-b">
-            <th className="py-2 pr-3">Naam</th>
-            <th className="py-2 pr-3">Prijs</th>
-            <th className="py-2 pr-3">Voorraad</th>
-            <th className="py-2 pr-3">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {(data ?? []).map((p: any) => (
-            <tr key={p.id} className="border-b">
-              <td className="py-2 pr-3">{p.name}</td>
-              <td className="py-2 pr-3">€ {(p.priceCents/100).toFixed(2)}</td>
-              <td className="py-2 pr-3">{p.stock}</td>
-              <td className="py-2 pr-3">{p.status}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+      {isLoading && <div style={styles.notice}>Laden…</div>}
+      {error && <div style={{...styles.notice, color:'#b91c1c'}}>Fout bij laden.</div>}
+      {!isLoading && !error && (
+        data && data.length > 0 ? (
+          <div style={styles.tableWrap}>
+            <table style={styles.table}>
+              <thead>
+                <tr>
+                  <th style={styles.th}>Volgorde</th>
+                  <th style={styles.th}>Naam</th>
+                  <th style={styles.th}>Status</th>
+                  <th style={styles.th}>Prijs</th>
+                  <th style={styles.th}>Voorraad</th>
+                  <th style={styles.th}>SKU</th>
+                  <th style={styles.th}>Afbeelding</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((p) => (
+                  <tr key={p.id} style={styles.tr}>
+                    <td style={styles.tdMono}>{p.orderIndex}</td>
+                    <td style={styles.td}><strong>{p.name}</strong><div style={styles.slug}>/{p.slug}</div></td>
+                    <td style={styles.td}><span style={p.status === 'PUBLISHED' ? styles.badgeOk : styles.badgeDraft}>{p.status}</span></td>
+                    <td style={styles.tdMono}>{(p.priceCents/100).toFixed(2).replace('.', ',')}</td>
+                    <td style={styles.tdMono}>{p.stock}</td>
+                    <td style={styles.tdMono}>{p.sku ?? '—'}</td>
+                    <td style={styles.td}>
+                      {p.images?.[0]?.url ? (
+                        <img src={p.images[0].url} alt={p.images[0].alt ?? ''} style={styles.thumb} />
+                      ) : '—'}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div style={styles.empty}>
+            <h2 style={{margin:'0 0 6px 0'}}>Nog geen artikelen</h2>
+            <p style={{margin:0,color:'#666'}}>Voeg eerst artikelen toe (Stap 3) of seed de database.</p>
+          </div>
+        )
+      )}
+    </main>
   );
 }
+
+const styles: Record<string, React.CSSProperties> = {
+  main: { padding: '24px', maxWidth: 1200, margin: '0 auto' },
+  header: { marginBottom: 16 },
+  h1: { margin: 0, fontSize: 24 },
+  sub: { margin: '4px 0 0 0', color: '#666' },
+  notice: { padding: '12px 14px', background: '#f8fafc', border: '1px solid #e5e7eb', borderRadius: 8, display: 'inline-block' },
+  empty: { padding: 24, border: '1px dashed #e5e7eb', borderRadius: 12, background: '#fafafa' },
+  tableWrap: { overflowX: 'auto', border: '1px solid #e5e7eb', borderRadius: 12 },
+  table: { width: '100%', borderCollapse: 'separate', borderSpacing: 0 },
+  th: { textAlign: 'left', fontWeight: 600, fontSize: 13, padding: '12px 10px', background: '#f8fafc', borderBottom: '1px solid #e5e7eb', whiteSpace: 'nowrap' },
+  tr: { borderBottom: '1px solid #f1f5f9' },
+  td: { padding: '12px 10px', verticalAlign: 'middle' },
+  tdMono: { padding: '12px 10px', verticalAlign: 'middle', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace' },
+  slug: { color: '#94a3b8', fontSize: 12 },
+  badgeOk: { background:'#eafff3', color:'#065f46', border:'1px solid #bbf7d0', fontSize:12, padding:'3px 6px', borderRadius:999 },
+  badgeDraft: { background:'#fff7ed', color:'#9a3412', border:'1px solid #fed7aa', fontSize:12, padding:'3px 6px', borderRadius:999 },
+  thumb: { width: 48, height: 48, objectFit: 'cover', borderRadius: 8, border: '1px solid #e5e7eb' },
+};
