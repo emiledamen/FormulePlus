@@ -1,37 +1,48 @@
 // middleware.ts
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { getToken } from 'next-auth/jwt';
 
 /**
- * Minimal middleware:
- * - Protects only /admin/** routes
- * - Explicitly ignores /api/auth/** and everything else
- * - No interference with POST requests for NextAuth (prevents 405 during magic-link)
+ * Maintenance mode
+ * Enable by setting env MAINTENANCE_MODE=true (or '1').
+ * Allows: /maintenance, /login, /admin, /api/auth/**, assets and Next internals.
+ * Everything else is rewritten to /maintenance.
  */
 export async function middleware(req: NextRequest) {
+  const enabled =
+    process.env.MAINTENANCE_MODE === 'true' ||
+    process.env.MAINTENANCE_MODE === '1';
+  if (!enabled) return NextResponse.next();
+
   const { pathname } = req.nextUrl;
 
-  // Allow all NextAuth routes (sign-in, callback, etc.)
-  if (pathname.startsWith('/api/auth')) {
+  // Always allow Next internals & static assets
+  if (
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/assets') ||
+    pathname.startsWith('/images') ||
+    pathname === '/favicon.ico'
+  ) {
     return NextResponse.next();
   }
 
-  // Protect /admin/*
-  if (pathname.startsWith('/admin')) {
-    const token = await getToken({ req });
-    if (!token) {
-      const url = req.nextUrl.clone();
-      url.pathname = '/login';
-      url.searchParams.set('callbackUrl', req.nextUrl.pathname);
-      return NextResponse.redirect(url);
-    }
-  }
+  // Auth routes must always work for magic links
+  if (pathname.startsWith('/api/auth')) return NextResponse.next();
 
-  return NextResponse.next();
+  // Allow admin & login to keep working while site is down
+  if (pathname.startsWith('/admin')) return NextResponse.next();
+  if (pathname === '/login') return NextResponse.next();
+
+  // Allow the maintenance page itself
+  if (pathname === '/maintenance') return NextResponse.next();
+
+  // Everything else -> maintenance
+  const url = req.nextUrl.clone();
+  url.pathname = '/maintenance';
+  return NextResponse.rewrite(url);
 }
 
+// Run on all paths except Next internals (extra safety handled at runtime too)
 export const config = {
-  // Only run on /admin/** and /api/auth/** (we early-return for /api/auth/**)
-  matcher: ['/admin/:path*', '/api/auth/:path*'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };
