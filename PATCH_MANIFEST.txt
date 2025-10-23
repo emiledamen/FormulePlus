@@ -1,5 +1,5 @@
-app/login/page.tsx
-app/account/page.tsx
-app/api/auth/[...nextauth]/route.ts
+package.json.MERGE_ME.txt
+lib/auth/options.ts
+lib/auth/session.ts
 PATCH_NOTES.md
 PATCH_MANIFEST.txt

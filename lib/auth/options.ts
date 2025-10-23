@@ -2,11 +2,10 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { NextAuthOptions } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 import { PrismaClient } from "@prisma/client";
-import { loginEmailHTML } from "@/emails/loginTemplate";
+import { loginEmailHTML } from "../../emails/loginTemplate";
 
 const prisma = new PrismaClient();
 
-// Helper to send the verification e-mail using Resend's HTTP API (no extra npm deps)
 async function sendWithResend(email: string, url: string) {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.RESEND_FROM;
@@ -36,7 +35,7 @@ async function sendWithResend(email: string, url: string) {
 }
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(new PrismaClient()),
   session: { strategy: "database" },
   providers: [
     EmailProvider({
@@ -51,7 +50,6 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ session, user }) {
       if (session?.user) {
-        // expose id on the client
         // @ts-expect-error add id
         session.user.id = user.id;
       }

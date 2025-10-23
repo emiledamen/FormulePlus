@@ -1,16 +1,24 @@
-# Hotfix: A1 path aliases → relative imports
+# Hotfix 2: Auth adapter & pad-fixes
 
-**Probleem:** Build faalde met `Module not found: Can't resolve '@/...'` — baseline heeft geen `@` alias ingesteld in `tsconfig.json`.
-**Oplossing:** Alias-imports vervangen door **relatieve paden** in 3 bestanden.
+**Problemen:**
+1) `Module not found: Can't resolve '@auth/prisma-adapter'`
+2) Alias-imports in `lib/auth/...` verwezen naar `@/...`
+
+**Oplossing:**
+- `package.json`: voeg stabiele dependency **@auth/prisma-adapter** toe.
+- `lib/auth/options.ts`: alias naar relatieve import voor e-mailtemplate.
+- `lib/auth/session.ts`: alias naar relatieve import voor options.
 
 ## Gewijzigde bestanden
-- `app/login/page.tsx` → `@/components/AuthEmailForm` → `../../components/AuthEmailForm`
-- `app/account/page.tsx` → `@/lib/auth/session` → `../../lib/auth/session`
-- `app/api/auth/[...nextauth]/route.ts` → `@/lib/auth/options` → `../../../../lib/auth/options`
+- `package.json.MERGE_ME.txt` (voeg dependency toe)
+- `lib/auth/options.ts` (import pad fix)
+- `lib/auth/session.ts` (import pad fix)
+- `lib/auth/options.ts` (import pad fix)
+- `lib/auth/session.ts` (import pad fix)
 
 ## Rooktest
-- Deploy opnieuw → build moet slagen voorbij eerdere errors.
-- `/login` rendert, magic-link flow intact.
+- `npm install` / Vercel build zou nu doorgaan voorbij vorige fouten.
+- `/login` → e-mail ontvangen → link werkt → `/account` OK.
 
 ## Rollback
-- Zet bovenstaande bestanden terug naar vorige versie (met alias import). Geen verdere impact.
+- Zet deze drie bestanden terug naar baseline. Geen migraties / schema-changes.
