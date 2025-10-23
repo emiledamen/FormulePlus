@@ -1,8 +1,7 @@
-import { getSession } from "@/lib/auth/session";
+import { getSession } from "../../lib/auth/session";
 
 export default async function AccountPage() {
   const session = await getSession();
-  // Dit is extra defensief; middleware beschermt deze route al.
   if (!session?.user?.email) {
     return (
       <main className="px-4 py-12">
@@ -17,7 +16,6 @@ export default async function AccountPage() {
         <div className="p-4 border rounded-2xl">
           <p className="text-sm opacity-80">Ingelogd als <strong>{session.user.email}</strong></p>
         </div>
-        {/* TODO: adresboek, bestellingen */}
       </div>
     </main>
   );
