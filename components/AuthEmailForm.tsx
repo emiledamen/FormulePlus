@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react";
 
 export default function AuthEmailForm() {
   const [email, setEmail] = useState("");
@@ -13,14 +12,33 @@ export default function AuthEmailForm() {
     setError(null);
     setWorking(true);
     try {
-      // Laat NextAuth de redirect afhandelen naar /verify-request.
-      // De magic-link zelf zal na klikken terugkeren met callback naar /account.
-      await signIn("email", {
-        email,
-        // Laat redirect aan (default = true). Geen JSON parsing meer.
-        callbackUrl: "/account",
-      });
-      // Geen setState hier; redirect volgt.
+      // 1) Haal CSRF-token op bij NextAuth
+      const res = await fetch("/api/auth/csrf");
+      const data = await res.json();
+      const csrfToken = data?.csrfToken;
+      if (!csrfToken) throw new Error("Kon geen CSRF-token ophalen.");
+
+      // 2) Bouw een echte <form> POST naar /api/auth/signin/email zodat de server zelf redirect
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = "/api/auth/signin/email";
+
+      const input = (name: string, value: string) => {
+        const el = document.createElement("input");
+        el.type = "hidden";
+        el.name = name;
+        el.value = value;
+        form.appendChild(el);
+      };
+
+      input("csrfToken", csrfToken);
+      input("email", email);
+      input("callbackUrl", "/account");
+      // Belangrijk: GEEN 'json=true' meegeven → server zal redirecten naar verifyRequest
+
+      document.body.appendChild(form);
+      form.submit();
+      // geen verdere state-updates; de browser navigeert nu weg
     } catch (err: any) {
       setError(err?.message ?? "Er ging iets mis.");
       setWorking(false);

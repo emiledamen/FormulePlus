@@ -46,6 +46,7 @@ export const authOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: "/login",
+    verifyRequest: "/verify-request",
   },
   callbacks: {
     async session({ session, user }) {

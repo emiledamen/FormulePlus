@@ -1,4 +1,4 @@
 components/AuthEmailForm.tsx
-app/verify-request/page.tsx
+lib/auth/options.ts
 PATCH_NOTES.md
 PATCH_MANIFEST.txt

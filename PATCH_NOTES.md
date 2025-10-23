@@ -1,17 +1,19 @@
-# Hotfix: Email sign-in JSON error
+# Hotfix: Betrouwbare e-mail sign‑in (CSRF + echte POST)
 
-**Symptoom:** Op `/login` verschijnt "Unexpected end of JSON input" na het versturen van de magic link.
-**Oorzaak:** `signIn('email', { redirect: false })` laat NextAuth een JSON-respons verwachten van de sign-in route,
-die in het email-provider-pad niet geleverd wordt. Daardoor ontstaat een parse error in de client.
+**Symptoom:** Op `/login` verschijnt nog steeds “Unexpected end of JSON input” na verzenden.
+**Oorzaak:** De client probeerde een JSON‑antwoord te verwerken. We omzeilen dit volledig door
+een *echte* `POST` naar NextAuth te doen met CSRF‑token (geen fetch/json parsing).
 
-**Oplossing (klein & veilig):**
-- `components/AuthEmailForm.tsx`: gebruik **redirect (default)** en laat NextAuth doorsturen naar een
-  bevestigingspagina. Callback blijft `/account` wanneer de link uit de e-mail wordt gebruikt.
-- `app/verify-request/page.tsx`: eenvoudige bevestigingspagina “Check je e-mail”.
+**Wat is aangepast**
+- `components/AuthEmailForm.tsx`: geen `signIn()` meer. We halen `csrfToken` op en dienen een
+  **onzichtbare HTML‑form** in naar `/api/auth/signin/email` (methode POST) met velden:
+  `csrfToken`, `email`, `callbackUrl`. De server doet daarna zelf de redirect naar
+  `pages.verifyRequest` (geen JSON).
+- `lib/auth/options.ts`: `pages.verifyRequest = "/verify-request"` toegevoegd (expliciet).
 
-## Rooktest
-1) Ga naar `/login`, vul e-mail in, klik “Verstuur magic link” → je ziet de pagina “Check je e-mail”.
-2) Klik op de link uit de e-mail → je komt terug en bent ingelogd; `/account` werkt.
+**Rooktest**
+1) `/login` → e‑mail invullen → klik → pagina navigeert automatisch naar `/verify-request`.
+2) Klik de link uit je e‑mail → je landt ingelogd op `/account`.
 
-## Rollback
-Vervang de gewijzigde/bijgevoegde bestanden terug naar de vorige versie.
+**Rollback**
+Vervang de twee bestanden terug naar de vorige versie.
