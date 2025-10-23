@@ -1,12 +1,17 @@
-# Patch: package.json naamfix
+# Patch: package.json alias voor prisma-adapter
 
-**Probleem:** verkeerde dependency-naam `@next-auth/prisma-adapter` → module niet gevonden.
-**Oplossing:** hernoemd naar `@auth/prisma-adapter` (zelfde stabiele versie ^1.0.7).
+**Probleem:** Code importeert `@next-auth/prisma-adapter`, terwijl de juiste package tegenwoordig `@auth/prisma-adapter` is.
+**Oplossing:** Voeg **beide** deps toe, met een npm-alias zodat legacy imports blijven werken:
 
-## Wat te doen
-1. Vervang je bestaande `package.json` door deze versie.
-2. Run lokaal `npm install` of laat Vercel opnieuw bouwen.
-3. Build zou nu slagen; magic-link login werkt.
+```json
+"@auth/prisma-adapter": "^1.0.7",
+"@next-auth/prisma-adapter": "npm:@auth/prisma-adapter@^1.0.7"
+```
 
-## Geen verdere wijzigingen
-- Alle andere dependencies, scripts en versies ongewijzigd.
+## Stappen
+1) Vervang `package.json` door deze versie.
+2) `npm install` (of laat Vercel opnieuw installeren).
+3) Build opnieuw: de import `@next-auth/prisma-adapter` wordt nu netjes doorgelinkt.
+
+## Opmerking
+- Geen andere wijzigingen. Je kunt de code later migreren naar `@auth/prisma-adapter` imports, maar dat hoeft nu niet.
