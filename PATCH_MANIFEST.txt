@@ -1,4 +1,3 @@
-components/AuthEmailForm.tsx
-lib/auth/options.ts
+app/api/auth/[...nextauth]/route.ts
 PATCH_NOTES.md
 PATCH_MANIFEST.txt
