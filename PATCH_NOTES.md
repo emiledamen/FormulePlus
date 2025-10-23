@@ -1,24 +1,12 @@
-# Hotfix 2: Auth adapter & pad-fixes
+# Patch: package.json naamfix
 
-**Problemen:**
-1) `Module not found: Can't resolve '@auth/prisma-adapter'`
-2) Alias-imports in `lib/auth/...` verwezen naar `@/...`
+**Probleem:** verkeerde dependency-naam `@next-auth/prisma-adapter` → module niet gevonden.
+**Oplossing:** hernoemd naar `@auth/prisma-adapter` (zelfde stabiele versie ^1.0.7).
 
-**Oplossing:**
-- `package.json`: voeg stabiele dependency **@auth/prisma-adapter** toe.
-- `lib/auth/options.ts`: alias naar relatieve import voor e-mailtemplate.
-- `lib/auth/session.ts`: alias naar relatieve import voor options.
+## Wat te doen
+1. Vervang je bestaande `package.json` door deze versie.
+2. Run lokaal `npm install` of laat Vercel opnieuw bouwen.
+3. Build zou nu slagen; magic-link login werkt.
 
-## Gewijzigde bestanden
-- `package.json.MERGE_ME.txt` (voeg dependency toe)
-- `lib/auth/options.ts` (import pad fix)
-- `lib/auth/session.ts` (import pad fix)
-- `lib/auth/options.ts` (import pad fix)
-- `lib/auth/session.ts` (import pad fix)
-
-## Rooktest
-- `npm install` / Vercel build zou nu doorgaan voorbij vorige fouten.
-- `/login` → e-mail ontvangen → link werkt → `/account` OK.
-
-## Rollback
-- Zet deze drie bestanden terug naar baseline. Geen migraties / schema-changes.
+## Geen verdere wijzigingen
+- Alle andere dependencies, scripts en versies ongewijzigd.

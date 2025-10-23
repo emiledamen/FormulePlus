@@ -1,5 +1,3 @@
-package.json.MERGE_ME.txt
-lib/auth/options.ts
-lib/auth/session.ts
+package.json
 PATCH_NOTES.md
 PATCH_MANIFEST.txt
