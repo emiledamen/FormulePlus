@@ -1,19 +1,17 @@
-# Patch: NextAuth runtime fix (Node.js + no cache)
+# Patch: Health checks voor ENV + DB
 
-**Waarom:** Prisma werkt niet op de Edge-runtime. Een 500 tijdens `/api/auth/*` kan ontstaan als
-de route op Edge draait of gecached wordt. Deze patch **forceert Node.js** en schakelt caching uit.
+Doel: snel vaststellen of **FormulePlus** de juiste database gebruikt en of Prisma kan verbinden.
 
-## Gewijzigd
-- `app/api/auth/[...nextauth]/route.ts`:
-  - `export const runtime = "nodejs"`
-  - `export const dynamic = "force-dynamic"`
+## Nieuwe routes
+- `GET /api/health/db`
+  - Parseert `process.env.DATABASE_URL` en geeft **host**, **database-naam** en **user** terug (geen wachtwoord).
+- `GET /api/health/prisma`
+  - Doet `SELECT 1` via Prisma en geeft `{ ok: true }` terug bij succes.
 
-## Rooktest
+Beide routes forceren **Node.js runtime** en `dynamic = "force-dynamic"`.
+
+## Gebruik
 1) Deploy deze patch.
-2) `/login` → verstuur e-mail → je moet **/verify-request** zien i.p.v. HTTP 500.
-3) E-mail ontvangen → klik → **/account** toont sessie.
-
-## Let ook op (mogelijke 500-oorzaken)
-- ENV: `NEXTAUTH_URL`, `AUTH_SECRET`, `RESEND_API_KEY`, `RESEND_FROM`, `DATABASE_URL` correct gezet.
-- Database heeft NextAuth-tabellen (`User`, `Account`, `Session`, `VerificationToken`): zo niet → run `npm run prisma:deploy`.
-- Resend: domein/afzender geverifieerd; API key actief; check Resend Logs voor fouten (401/403/422).
+2) Open `/api/health/db` → controleer dat **host/db** van de **FormulePlus**-database zijn (niet meld).
+3) Open `/api/health/prisma` → verwacht `{ ok: true }`.
+4) Werkt dit, maar login nog niet? Dan ligt het aan mail/NextAuth-config, niet aan DB.
