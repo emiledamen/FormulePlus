@@ -1,3 +1,4 @@
-package.json
+components/AuthEmailForm.tsx
+app/verify-request/page.tsx
 PATCH_NOTES.md
 PATCH_MANIFEST.txt

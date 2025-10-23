@@ -5,43 +5,32 @@ import { signIn } from "next-auth/react";
 
 export default function AuthEmailForm() {
   const [email, setEmail] = useState("");
-  const [sent, setSent] = useState(false);
+  const [working, setWorking] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+    setWorking(true);
     try {
-      const res = await signIn("email", {
+      // Laat NextAuth de redirect afhandelen naar /verify-request.
+      // De magic-link zelf zal na klikken terugkeren met callback naar /account.
+      await signIn("email", {
         email,
-        redirect: false,
+        // Laat redirect aan (default = true). Geen JSON parsing meer.
         callbackUrl: "/account",
       });
-      if (res?.error) {
-        setError(res.error);
-      } else {
-        setSent(true);
-      }
+      // Geen setState hier; redirect volgt.
     } catch (err: any) {
       setError(err?.message ?? "Er ging iets mis.");
+      setWorking(false);
     }
-  }
-
-  if (sent) {
-    return (
-      <div className="max-w-md mx-auto p-6 border rounded-2xl">
-        <h1 className="text-xl font-semibold mb-2">Check je e‑mail</h1>
-        <p className="text-sm opacity-80">
-          We hebben een link gestuurd naar <strong>{email}</strong>. Klik op die link om in te loggen.
-        </p>
-      </div>
-    );
   }
 
   return (
     <form onSubmit={onSubmit} className="max-w-md mx-auto p-6 border rounded-2xl space-y-4">
       <div>
-        <label htmlFor="email" className="block text-sm font-medium mb-1">E‑mailadres</label>
+        <label htmlFor="email" className="block text-sm font-medium mb-1">E-mailadres</label>
         <input
           id="email"
           type="email"
@@ -51,13 +40,15 @@ export default function AuthEmailForm() {
           placeholder="jij@voorbeeld.nl"
           className="w-full border rounded-lg px-3 h-10"
           autoComplete="email"
+          disabled={working}
         />
       </div>
       <button
         type="submit"
         className="w-full h-10 rounded-lg border"
+        disabled={working}
       >
-        Verstuur magic link
+        {working ? "Versturen..." : "Verstuur magic link"}
       </button>
       {error && <p className="text-sm text-red-600">{error}</p>}
     </form>

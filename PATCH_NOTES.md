@@ -1,17 +1,17 @@
-# Patch: package.json alias voor prisma-adapter
+# Hotfix: Email sign-in JSON error
 
-**Probleem:** Code importeert `@next-auth/prisma-adapter`, terwijl de juiste package tegenwoordig `@auth/prisma-adapter` is.
-**Oplossing:** Voeg **beide** deps toe, met een npm-alias zodat legacy imports blijven werken:
+**Symptoom:** Op `/login` verschijnt "Unexpected end of JSON input" na het versturen van de magic link.
+**Oorzaak:** `signIn('email', { redirect: false })` laat NextAuth een JSON-respons verwachten van de sign-in route,
+die in het email-provider-pad niet geleverd wordt. Daardoor ontstaat een parse error in de client.
 
-```json
-"@auth/prisma-adapter": "^1.0.7",
-"@next-auth/prisma-adapter": "npm:@auth/prisma-adapter@^1.0.7"
-```
+**Oplossing (klein & veilig):**
+- `components/AuthEmailForm.tsx`: gebruik **redirect (default)** en laat NextAuth doorsturen naar een
+  bevestigingspagina. Callback blijft `/account` wanneer de link uit de e-mail wordt gebruikt.
+- `app/verify-request/page.tsx`: eenvoudige bevestigingspagina “Check je e-mail”.
 
-## Stappen
-1) Vervang `package.json` door deze versie.
-2) `npm install` (of laat Vercel opnieuw installeren).
-3) Build opnieuw: de import `@next-auth/prisma-adapter` wordt nu netjes doorgelinkt.
+## Rooktest
+1) Ga naar `/login`, vul e-mail in, klik “Verstuur magic link” → je ziet de pagina “Check je e-mail”.
+2) Klik op de link uit de e-mail → je komt terug en bent ingelogd; `/account` werkt.
 
-## Opmerking
-- Geen andere wijzigingen. Je kunt de code later migreren naar `@auth/prisma-adapter` imports, maar dat hoeft nu niet.
+## Rollback
+Vervang de gewijzigde/bijgevoegde bestanden terug naar de vorige versie.
