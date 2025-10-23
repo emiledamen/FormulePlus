@@ -1,3 +1,0 @@
-PATCH_MANIFEST.txt
-public/hero-formuleplus.png
-public/hero-formuleplus.webp
