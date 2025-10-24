@@ -1,4 +1,4 @@
-app/api/health/db/route.ts
-app/api/health/prisma/route.ts
+lib/prisma.ts
+lib/auth/options.ts
 PATCH_NOTES.md
 PATCH_MANIFEST.txt

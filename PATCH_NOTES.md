@@ -1,17 +1,17 @@
-# Patch: Health checks voor ENV + DB
+# Patch: Auth 500-fix (Prisma singleton + non-throwing email send)
 
-Doel: snel vaststellen of **FormulePlus** de juiste database gebruikt en of Prisma kan verbinden.
+**Probleem:** HTTP 500 tijdens `/api/auth/signin/email` / `/verify-request`.
+Bekende oorzaken: meerdere Prisma instanties in serverless, of exceptions in `sendVerificationRequest` (mailfout).
+Deze patch adresseert beide.
 
-## Nieuwe routes
-- `GET /api/health/db`
-  - Parseert `process.env.DATABASE_URL` en geeft **host**, **database-naam** en **user** terug (geen wachtwoord).
-- `GET /api/health/prisma`
-  - Doet `SELECT 1` via Prisma en geeft `{ ok: true }` terug bij succes.
+**Wat is aangepast:**
+- `lib/prisma.ts` (nieuw): Prisma **singleton** via `globalThis` (Next.js aanbevolen patroon).
+- `lib/auth/options.ts`: gebruikt singleton; `sendWithResend` **gooit niet meer** bij mailfout (logt alleen).
+  Zo blijft de route up zonder 500, en zie je mailfouten in logs/Resend.
 
-Beide routes forceren **Node.js runtime** en `dynamic = "force-dynamic"`.
+**Let op:** Zorg dat `RESEND_API_KEY` en **geverifieerde** `RESEND_FROM` correct zijn.
+Voor een snelle test kun je tijdelijk `RESEND_FROM=onboarding@resend.dev` gebruiken.
 
-## Gebruik
-1) Deploy deze patch.
-2) Open `/api/health/db` → controleer dat **host/db** van de **FormulePlus**-database zijn (niet meld).
-3) Open `/api/health/prisma` → verwacht `{ ok: true }`.
-4) Werkt dit, maar login nog niet? Dan ligt het aan mail/NextAuth-config, niet aan DB.
+## Rooktest
+1) Deploy → `/login` → verstuur → je hoort **/verify-request** te zien (geen 500).
+2) Met geldige Resend-config komt mail aan; klik → `/account` met sessie.
